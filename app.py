@@ -4,6 +4,7 @@ import math
 import random
 import base64
 import os
+import streamlit.components.v1 as components
 
 # ----------------------------------------------------------------
 # 1. 페이지 기본 설정 및 커스텀 CSS (여의도 테마 & Glassmorphism)
@@ -187,29 +188,14 @@ st.markdown(hero_html, unsafe_allow_html=True)
 # 2. 사이드바 - 상시 단순 계산기
 # ----------------------------------------------------------------
 with st.sidebar:
-    st.header("🧮 상시 단순 계산기")
-    st.caption("대시보드 작업 중 간단한 사칙연산이 필요할 때 활용하세요.")
+    st.header("🧮 프리미엄 재무 계산기")
+    st.caption("공학용 기능 및 계산 히스토리 지원")
     
-    with st.container(border=True):
-        c1, c2, c3 = st.columns([2, 1.5, 2])
-        with c1:
-            num1 = st.number_input("숫자 1", value=0.0, step=1.0, key="calc_num1", label_visibility="collapsed")
-        with c2:
-            operator = st.selectbox("연산", ["+", "-", "×", "÷"], key="calc_op", label_visibility="collapsed")
-        with c3:
-            num2 = st.number_input("숫자 2", value=0.0, step=1.0, key="calc_num2", label_visibility="collapsed")
-            
-        if st.button("계산 ⚡", type="primary", use_container_width=True):
-            result = None
-            if operator == "+": result = num1 + num2
-            elif operator == "-": result = num1 - num2
-            elif operator == "×": result = num1 * num2
-            elif operator == "÷":
-                if num2 == 0: st.error("0으로 나눌 수 없습니다.")
-                else: result = num1 / num2
-                    
-            if result is not None:
-                st.success(f"**결과: {result:,.4f}**".rstrip('0').rstrip('.'))
+    calc_html_path = os.path.join(script_dir, 'calculator-1.html')
+    with open(calc_html_path, "r", encoding="utf-8") as f:
+        calc_html = f.read()
+        
+    components.html(calc_html, height=850, scrolling=True)
 
 # ----------------------------------------------------------------
 # 3. 메인 화면 탭(Tabs) 레이아웃 구성
