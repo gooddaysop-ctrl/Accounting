@@ -72,20 +72,17 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
-            transform-style: preserve-3d;
-            animation: float 6s ease-in-out infinite;
-            transform: scale(0.85);
-            transform-origin: top center;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotateX(2deg) rotateY(-2deg); }
-            50% { transform: translateY(-15px) rotateX(-1deg) rotateY(1deg); }
+            width: 100%;
+            align-items: center;
+            box-sizing: border-box;
+            padding: 0 10px;
         }
 
         .calculator {
             position: relative;
-            width: 360px;
+            width: 100%;
+            max-width: 360px;
+            box-sizing: border-box;
             padding: 30px;
             border-radius: 32px;
             background: var(--glass-bg);
@@ -284,7 +281,9 @@
 
         /* History Panel */
         .history-panel {
-            width: 360px;
+            width: 100%;
+            max-width: 360px;
+            box-sizing: border-box;
             height: 300px;
             padding: 25px;
             border-radius: 32px;
