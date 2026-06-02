@@ -112,6 +112,13 @@ st.markdown(f"""
         100% {{ opacity: 1; transform: translateY(0); }}
     }}
     
+    @keyframes popupSlide {{
+        0% {{ transform: translateX(-150%); opacity: 0; }}
+        10% {{ transform: translateX(0); opacity: 1; }}
+        80% {{ transform: translateX(0); opacity: 1; }}
+        100% {{ transform: translateX(-150%); opacity: 0; }}
+    }}
+    
     @keyframes fadeInContent {{
         0% {{ opacity: 0; transform: translateY(15px); }}
         100% {{ opacity: 1; transform: translateY(0); }}
@@ -176,9 +183,11 @@ JH ACCOUNTING
 <div style="font-size: 1.25rem; font-weight: 400; color: rgba(255,255,255,0.85); margin-bottom: 2rem;">
 대한민국 금융의 중심, 여의도 스탠다드의 강력한 실무 재무 툴킷.
 </div>
-<div style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); padding: 1rem 2rem; border-radius: 12px; display: inline-block; border: 1px solid rgba(255,255,255,0.2); font-weight: 500; font-size: 1rem;">
-💡 <b>Tip:</b> 화면 왼쪽 사이드바(〉 모양 버튼)를 열면 상시 단순 계산기를 사용할 수 있습니다.
 </div>
+
+<!-- 사이드바 유도 팝업 토스트 (좌측) -->
+<div style="position: fixed; top: 6rem; left: 1.5rem; z-index: 999999; background: rgba(15, 23, 42, 0.95); color: white; padding: 1rem 1.5rem; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); animation: popupSlide 7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; font-size: 0.95rem; font-weight: 500; pointer-events: none; backdrop-filter: blur(10px);">
+    💡 <b>Tip:</b> 화면 왼쪽 〉버튼을 누르면 프리미엄 계산기를 쓸 수 있습니다!
 </div>
 """
 st.markdown(hero_html, unsafe_allow_html=True)
