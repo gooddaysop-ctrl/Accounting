@@ -200,8 +200,9 @@ with st.sidebar:
 # ----------------------------------------------------------------
 # 3. 메인 화면 탭(Tabs) 레이아웃 구성
 # ----------------------------------------------------------------
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab1, tab_pva, tab2, tab3, tab4, tab5 = st.tabs([
     "현재가치(PV) 계산", 
+    "연금 현재가치(PVA) 계산",
     "감가상각비 계산", 
     "사채 발행금액 계산", 
     "퇴직연금 시뮬레이터",
@@ -230,6 +231,32 @@ with tab1:
             pv = fv / ((1 + r) ** n)
             st.success("계산이 완료되었습니다.")
             st.metric(label="자산의 현재가치 (Present Value)", value=f"₩ {pv:,.0f}")
+
+# ==========================================
+# TAB 1.5: 연금 현재가치(PVA) 계산기
+# ==========================================
+with tab_pva:
+    st.subheader("💵 연금 현재가치(PVA) 산출")
+    st.write("매기 일정한 금액(연금)이 발생할 때, 그 전체 현금흐름의 현재가치를 평가합니다.")
+    
+    with st.container(border=True):
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            pmt = st.number_input("매기 수령액 (PMT)", value=1000000, step=10000, key="pva_pmt")
+        with col2:
+            r_percent_pva = st.number_input("할인율 (%, r)", value=5.0, step=0.1, key="pva_r")
+            r_pva = r_percent_pva / 100
+        with col3:
+            n_pva = st.number_input("기간 (년, n)", value=10, step=1, key="pva_n")
+            
+        st.markdown("<br>", unsafe_allow_html=True)
+        if st.button("PVA 산출 실행", type="primary", key="btn_pva"):
+            if r_pva == 0:
+                pva = pmt * n_pva
+            else:
+                pva = pmt * ((1 - (1 + r_pva) ** -n_pva) / r_pva)
+            st.success("계산이 완료되었습니다.")
+            st.metric(label="연금의 현재가치 (Present Value of Annuity)", value=f"₩ {pva:,.0f}")
 
 # ==========================================
 # TAB 2: 감가상각비 계산기
