@@ -25,8 +25,9 @@ def get_base64_of_bin_file(bin_file):
         return base64.b64encode(data).decode()
     return ""
 
-# 깃헙 연동 및 배포를 위해 이미지 경로를 상대 경로로 변경
-bg_image_path = 'static/yeouido_background.png'
+# 깃헙 연동 및 배포(Streamlit Cloud)를 위해 스크립트 기준 절대 경로로 변경
+script_dir = os.path.dirname(os.path.abspath(__file__))
+bg_image_path = os.path.join(script_dir, 'static', 'yeouido_background.png')
 bg_b64 = get_base64_of_bin_file(bg_image_path)
 
 # Custom CSS 주입 (프리미엄 여의도 테마)
