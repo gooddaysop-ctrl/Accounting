@@ -46,6 +46,11 @@ st.markdown(f"""
     [data-testid="stToolbar"] {{
         display: none !important;
     }}
+    /* 사이드바 여닫기 버튼을 제일 위로 강제 노출 */
+    [data-testid="collapsedControl"] {{
+        z-index: 99999999 !important;
+        pointer-events: auto !important;
+    }}
     
     /* 사이드바 글래스모피즘 (다크) 및 강제 최상단 유지 */
     [data-testid="stSidebar"], [data-testid="stSidebarOverlay"] {{
