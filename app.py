@@ -44,8 +44,8 @@ st.markdown(f"""
         background-color: rgba(0,0,0,0);
         pointer-events: none !important;
     }}
-    [data-testid="stHeader"] * {{
-        pointer-events: auto;
+    [data-testid="stToolbar"], [data-testid="collapsedControl"] {{
+        pointer-events: auto !important;
     }}
     
     /* 사이드바 글래스모피즘 (다크) */
