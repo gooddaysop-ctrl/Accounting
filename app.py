@@ -48,10 +48,12 @@ st.markdown(f"""
         pointer-events: auto;
     }}
     
-    /* 사이드바 글래스모피즘 (다크) */
+    /* 사이드바 글래스모피즘 (다크) 및 배너 아래로 위치 조정 */
     [data-testid="stSidebar"] {{
         background-color: rgba(15, 23, 42, 0.85) !important;
         backdrop-filter: blur(10px);
+        margin-top: 24rem !important;
+        height: calc(100vh - 24rem) !important;
     }}
     [data-testid="stSidebar"] * {{
         color: rgba(255,255,255,0.9) !important;
