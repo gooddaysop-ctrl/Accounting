@@ -136,7 +136,7 @@ st.markdown(f"""
         position: fixed;
         top: 1.2rem;
         right: clamp(1rem, 5vw, 15vw);
-        z-index: 9999999 !important;
+        z-index: 99990 !important;
         pointer-events: auto !important;
         display: flex !important;
         flex-wrap: nowrap !important;
