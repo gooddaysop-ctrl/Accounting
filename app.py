@@ -52,8 +52,9 @@ st.markdown(f"""
     [data-testid="stSidebar"] {{
         background-color: rgba(15, 23, 42, 0.85) !important;
         backdrop-filter: blur(10px);
-        margin-top: 24rem !important;
-        height: calc(100vh - 24rem) !important;
+        position: fixed !important;
+        top: 26rem !important; /* 여의도 사진(배너) 바로 밑으로 강제 지정 */
+        height: calc(100vh - 26rem) !important;
     }}
     [data-testid="stSidebar"] * {{
         color: rgba(255,255,255,0.9) !important;
