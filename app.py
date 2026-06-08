@@ -132,21 +132,30 @@ st.markdown(f"""
         /* z-index 버그 해결을 위해 position 제거 */
     }}
     [data-baseweb="tab-list"] {{
-        gap: 20px;
+        gap: clamp(5px, 1.5vw, 20px);
         position: fixed;
         top: 1.2rem;
-        right: 15vw;
+        right: clamp(1rem, 5vw, 15vw);
         z-index: 9999999 !important;
         pointer-events: auto !important;
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        max-width: 65vw; /* 로고와 겹침 방지 */
+    }}
+    /* 웹킷 스크롤바 숨김 (가로 스크롤이 생겨도 깔끔하게) */
+    [data-baseweb="tab-list"]::-webkit-scrollbar {{
+        display: none;
     }}
     [data-baseweb="tab"] {{
         border-radius: 0 !important;
-        padding: 5px 10px;
+        padding: 5px clamp(2px, 0.8vw, 10px);
         background-color: transparent !important;
         border: none !important;
         color: #334155 !important;
         font-weight: 700;
-        font-size: 1.05rem;
+        font-size: clamp(0.75rem, 1vw, 1.05rem);
+        white-space: nowrap !important;
     }}
     [data-baseweb="tab"]:hover {{
         color: #1E3A8A !important;
