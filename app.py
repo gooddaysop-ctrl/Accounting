@@ -220,14 +220,13 @@ with st.sidebar:
 # ----------------------------------------------------------------
 # 3. 메인 화면 탭(Tabs) 레이아웃 구성
 # ----------------------------------------------------------------
-tab1, tab_pva, tab2, tab3, tab4, tab5, tab_fs_gen = st.tabs([
+tab1, tab_pva, tab2, tab3, tab4, tab5 = st.tabs([
     "현재가치(PV) 계산", 
     "연금 현재가치(PVA) 계산",
     "감가상각비 계산", 
     "사채 발행금액 계산", 
     "퇴직연금 시뮬레이터",
-    "실전 재무 퀴즈",
-    "가상 재무제표 생성"
+    "실전 재무 퀴즈"
 ])
 
 # ==========================================
@@ -596,151 +595,3 @@ with tab5:
                     
         with col_btn2:
             st.button("새로운 문제 생성 🔄", on_click=reset_quiz, use_container_width=True)
-
-# ==========================================
-# TAB 7: 가상 재무제표 생성기
-# ==========================================
-with tab_fs_gen:
-    st.subheader("📊 가상 재무제표(Virtual FS) 자동 생성기")
-    st.write("간단한 파라미터를 입력하면 대차평균의 원리가 맞는 3년 치 가상 재무제표(손익계산서, 재무상태표, 현금흐름표)를 즉석에서 생성합니다.")
-
-    with st.form("fs_gen_form"):
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            company_name = st.text_input("회사명", value="(주)미래인더스트리")
-        with col2:
-            industry = st.selectbox("산업군", ["제조업", "IT/소프트웨어", "서비스업", "유통업"])
-        with col3:
-            revenue_scale = st.number_input("기준 연매출 규모 (백만원)", value=50000, step=1000)
-            
-        gen_btn = st.form_submit_button("가상 재무제표 생성하기", type="primary")
-
-    if gen_btn:
-        import pandas as pd
-        import random
-        import numpy as np
-        
-        # 1. 간단한 성장률 및 비율 설정
-        years = ["2023", "2024", "2025(E)"]
-        
-        # 산업군별 이익률 특징
-        margins = {{
-            "제조업": {{"cogs": 0.65, "sga": 0.20}},
-            "IT/소프트웨어": {{"cogs": 0.30, "sga": 0.40}},
-            "서비스업": {{"cogs": 0.40, "sga": 0.45}},
-            "유통업": {{"cogs": 0.75, "sga": 0.15}}
-        }}
-        mg = margins[industry]
-        
-        # --- 손익계산서 (Income Statement) ---
-        rev_y1 = int(revenue_scale * random.uniform(0.7, 0.9))
-        rev_y2 = revenue_scale
-        rev_y3 = int(revenue_scale * random.uniform(1.1, 1.3))
-        revenues = [rev_y1, rev_y2, rev_y3]
-        
-        is_data = {{}}
-        for i, y in enumerate(years):
-            rev = revenues[i]
-            cogs = int(rev * random.uniform(mg["cogs"] - 0.05, mg["cogs"] + 0.05))
-            gp = rev - cogs
-            sga = int(rev * random.uniform(mg["sga"] - 0.05, mg["sga"] + 0.05))
-            op = gp - sga
-            non_op_inc = int(rev * random.uniform(-0.02, 0.03))
-            ebt = op + non_op_inc
-            tax = int(ebt * 0.22) if ebt > 0 else 0
-            ni = ebt - tax
-            is_data[y] = [rev, cogs, gp, sga, op, non_op_inc, ebt, tax, ni]
-            
-        df_is = pd.DataFrame(is_data, index=[
-            "매출액", "매출원가", "매출총이익", "판매비와관리비", "영업이익", "영업외손익", "법인세차감전순이익", "법인세비용", "당기순이익"
-        ])
-        
-        # --- 재무상태표 (Balance Sheet) ---
-        bs_data = {{}}
-        for i, y in enumerate(years):
-            rev = revenues[i]
-            ni = df_is.loc["당기순이익", y]
-            
-            cash = int(rev * random.uniform(0.1, 0.3))
-            ar = int(rev * random.uniform(0.1, 0.2))
-            inv = int(rev * random.uniform(0.05, 0.2)) if industry != "IT/소프트웨어" else 0
-            current_assets = cash + ar + inv
-            non_current_assets = int(rev * random.uniform(0.4, 0.8))
-            total_assets = current_assets + non_current_assets
-            
-            ap = int(rev * random.uniform(0.05, 0.15))
-            short_debt = int(rev * random.uniform(0.1, 0.2))
-            current_liab = ap + short_debt
-            long_debt = int(total_assets * random.uniform(0.1, 0.3))
-            total_liab = current_liab + long_debt
-            
-            total_equity = total_assets - total_liab
-            capital_stock = int(total_equity * 0.3)
-            retained_earnings = total_equity - capital_stock
-            
-            bs_data[y] = [
-                cash, ar, inv, current_assets, non_current_assets, total_assets,
-                ap, short_debt, current_liab, long_debt, total_liab,
-                capital_stock, retained_earnings, total_equity
-            ]
-            
-        df_bs = pd.DataFrame(bs_data, index=[
-            "현금및현금성자산", "매출채권", "재고자산", "유동자산", "비유동자산", "자산총계",
-            "매입채무", "단기차입금", "유동부채", "장기차입금", "부채총계",
-            "자본금", "이익잉여금", "자본총계"
-        ])
-        
-        # --- 현금흐름표 (Cash Flow Statement) ---
-        cf_data = {{}}
-        for i, y in enumerate(years):
-            ni = df_is.loc["당기순이익", y]
-            depreciation = int(df_bs.loc["비유동자산", y] * random.uniform(0.05, 0.1))
-            cfo = ni + depreciation + int(random.uniform(-0.1, 0.1) * ni)
-            cfi = -int(df_bs.loc["비유동자산", y] * random.uniform(0.05, 0.15))
-            cff = int(df_bs.loc["부채총계", y] * random.uniform(-0.1, 0.1))
-            net_change = cfo + cfi + cff
-            cf_data[y] = [ni, depreciation, cfo, cfi, cff, net_change]
-            
-        df_cf = pd.DataFrame(cf_data, index=[
-            "당기순이익", "감가상각비", "영업활동현금흐름", "투자활동현금흐름", "재무활동현금흐름", "현금의증감"
-        ])
-
-        # 세션 상태에 저장하여 다운로드 클릭 시 리셋 방지
-        st.session_state.fs_data = {{
-            "company": company_name,
-            "df_is": df_is,
-            "df_bs": df_bs,
-            "df_cf": df_cf
-        }}
-
-    if "fs_data" in st.session_state:
-        fs_data = st.session_state.fs_data
-        comp_name = fs_data["company"]
-        st.success(f"✅ {{comp_name}}의 가상 재무제표 생성이 완료되었습니다.")
-        
-        def format_currency(val):
-            return f"{{val:,.0f}}"
-
-        st.markdown(f"#### 📄 {{comp_name}} - 요약 손익계산서 (단위: 백만원)")
-        st.dataframe(fs_data["df_is"].style.format(format_currency), use_container_width=True)
-        
-        st.markdown(f"#### 📄 {{comp_name}} - 요약 재무상태표 (단위: 백만원)")
-        st.dataframe(fs_data["df_bs"].style.format(format_currency), use_container_width=True)
-        
-        st.markdown(f"#### 📄 {{comp_name}} - 요약 현금흐름표 (단위: 백만원)")
-        st.dataframe(fs_data["df_cf"].style.format(format_currency), use_container_width=True)
-        
-        csv_is = fs_data["df_is"].to_csv(index=True).encode('utf-8-sig')
-        csv_bs = fs_data["df_bs"].to_csv(index=True).encode('utf-8-sig')
-        csv_cf = fs_data["df_cf"].to_csv(index=True).encode('utf-8-sig')
-        
-        st.markdown("---")
-        st.write("📥 **생성된 재무제표 다운로드 (CSV)**")
-        col_dl1, col_dl2, col_dl3 = st.columns(3)
-        with col_dl1:
-            st.download_button(label="손익계산서 다운로드", data=csv_is, file_name=f"{{comp_name}}_손익계산서.csv", mime="text/csv")
-        with col_dl2:
-            st.download_button(label="재무상태표 다운로드", data=csv_bs, file_name=f"{{comp_name}}_재무상태표.csv", mime="text/csv")
-        with col_dl3:
-            st.download_button(label="현금흐름표 다운로드", data=csv_cf, file_name=f"{{comp_name}}_현금흐름표.csv", mime="text/csv")
-
