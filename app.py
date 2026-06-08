@@ -48,10 +48,11 @@ st.markdown(f"""
         pointer-events: auto !important;
     }}
     
-    /* 사이드바 글래스모피즘 (다크) */
-    [data-testid="stSidebar"] {{
+    /* 사이드바 글래스모피즘 (다크) 및 강제 최상단 유지 */
+    [data-testid="stSidebar"], [data-testid="stSidebarOverlay"] {{
         background-color: rgba(15, 23, 42, 0.85) !important;
         backdrop-filter: blur(10px);
+        z-index: 99999999 !important; /* 메뉴보다 무조건 위에 오도록 극도로 높임 */
     }}
     [data-testid="stSidebar"] * {{
         color: rgba(255,255,255,0.9) !important;
@@ -137,7 +138,7 @@ st.markdown(f"""
         top: 1.2rem;
         left: clamp(280px, 25vw, 35vw);
         right: auto;
-        z-index: 99990 !important;
+        z-index: 9999999 !important; /* 클릭 보장을 위해 최상단으로 올림 (단, 사이드바보다는 낮음) */
         pointer-events: auto !important;
         display: flex !important;
         flex-wrap: nowrap !important;
