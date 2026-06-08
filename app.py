@@ -135,13 +135,14 @@ st.markdown(f"""
         gap: clamp(5px, 1.5vw, 20px);
         position: fixed;
         top: 1.2rem;
-        right: clamp(1rem, 5vw, 15vw);
+        left: clamp(280px, 25vw, 35vw);
+        right: auto;
         z-index: 99990 !important;
         pointer-events: auto !important;
         display: flex !important;
         flex-wrap: nowrap !important;
         overflow-x: auto !important;
-        max-width: 65vw; /* 로고와 겹침 방지 */
+        max-width: calc(100vw - 300px); /* 화면 우측 넘어가지 않도록 */
     }}
     /* 웹킷 스크롤바 숨김 (가로 스크롤이 생겨도 깔끔하게) */
     [data-baseweb="tab-list"]::-webkit-scrollbar {{
