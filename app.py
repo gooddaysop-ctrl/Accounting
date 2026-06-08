@@ -39,12 +39,15 @@ st.markdown(f"""
         background-color: #F8FAFC !important;
     }}
     
-    /* 헤더 투명화 및 클릭 방해 방지 */
+    /* 헤더 배경 투명화 및 스트림릿 기본 메뉴(우측)만 숨김 */
     [data-testid="stHeader"] {{
         background-color: rgba(0,0,0,0);
         pointer-events: none !important;
     }}
-    [data-testid="stToolbar"], [data-testid="collapsedControl"] {{
+    [data-testid="stToolbar"] {{
+        display: none !important;
+    }}
+    [data-testid="collapsedControl"] {{
         pointer-events: auto !important;
     }}
     
@@ -135,7 +138,7 @@ st.markdown(f"""
     [data-baseweb="tab-list"] {{
         gap: clamp(5px, 1.5vw, 20px);
         position: fixed;
-        top: 1.2rem;
+        top: 2.2rem;
         left: clamp(280px, 25vw, 35vw);
         right: auto;
         z-index: 9999999 !important; /* 클릭 보장을 위해 최상단으로 올림 (단, 사이드바보다는 낮음) */
@@ -181,11 +184,11 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 hero_html = f"""
 <!-- 흰색 고정 네비게이션 바 -->
-<div style="position: fixed; top: 0; left: 0; width: 100vw; height: 4.5rem; background-color: white; z-index: 99990; box-shadow: 0 2px 10px rgba(0,0,0,0.05); pointer-events: none;"></div>
-<!-- 좌측 상단 로고 -->
-<div style="position: fixed; top: 1.2rem; left: 5vw; z-index: 99991; font-size: 1.5rem; font-weight: 900; color: #1E3A8A; letter-spacing: 1px; pointer-events: none;">
+<div style="position: fixed; top: 0; left: 0; width: 100vw; height: 6.5rem; background-color: white; z-index: 99990; box-shadow: 0 2px 10px rgba(0,0,0,0.05); pointer-events: none;"></div>
+<!-- 좌측 상단 로고 (클릭 시 새로고침) -->
+<a href="." target="_self" style="position: fixed; top: 2.2rem; left: 5vw; z-index: 9999999; font-size: 1.5rem; font-weight: 900; color: #1E3A8A; letter-spacing: 1px; text-decoration: none; pointer-events: auto; cursor: pointer;">
 JH ACCOUNTING
-</div>
+</a>
 
 <div style="background-image: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), url('data:image/png;base64,{bg_b64}'); background-size: cover; background-position: center; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; margin-top: -1rem; padding: 8rem 2rem 5rem 2rem; margin-bottom: 3rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2); color: white; text-align: center;">
 <div style="font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 900; margin-bottom: 1rem; text-shadow: 0 4px 6px rgba(0,0,0,0.3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-top: 1rem; animation: fadeInHero 1.5s ease-out forwards;">
