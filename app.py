@@ -39,13 +39,9 @@ st.markdown(f"""
         background-color: #F8FAFC !important;
     }}
     
-    /* 스트림릿 기본 우측 메뉴(Deploy 등)만 안전하게 숨김 */
-    .stAppDeployButton, [data-testid="stToolbar"] {{
-        visibility: hidden !important;
-    }}
-    
     /* 사이드바 여닫기 버튼(〉) 강제 최상단 노출 */
-    [data-testid="collapsedControl"] {{
+    [data-testid="collapsedControl"],
+    [data-testid="stSidebarCollapsedControl"] {{
         z-index: 99999999 !important;
         display: flex !important;
         visibility: visible !important;
