@@ -623,12 +623,12 @@ with tab_fs_gen:
         years = ["2023", "2024", "2025(E)"]
         
         # 산업군별 이익률 특징
-        margins = {{
-            "제조업": {{"cogs": 0.65, "sga": 0.20}},
-            "IT/소프트웨어": {{"cogs": 0.30, "sga": 0.40}},
-            "서비스업": {{"cogs": 0.40, "sga": 0.45}},
-            "유통업": {{"cogs": 0.75, "sga": 0.15}}
-        }}
+        margins = {
+            "제조업": {"cogs": 0.65, "sga": 0.20},
+            "IT/소프트웨어": {"cogs": 0.30, "sga": 0.40},
+            "서비스업": {"cogs": 0.40, "sga": 0.45},
+            "유통업": {"cogs": 0.75, "sga": 0.15}
+        }
         mg = margins[industry]
         
         # --- 손익계산서 (Income Statement) ---
@@ -637,7 +637,7 @@ with tab_fs_gen:
         rev_y3 = int(revenue_scale * random.uniform(1.1, 1.3))
         revenues = [rev_y1, rev_y2, rev_y3]
         
-        is_data = {{}}
+        is_data = {}
         for i, y in enumerate(years):
             rev = revenues[i]
             cogs = int(rev * random.uniform(mg["cogs"] - 0.05, mg["cogs"] + 0.05))
@@ -655,7 +655,7 @@ with tab_fs_gen:
         ])
         
         # --- 재무상태표 (Balance Sheet) ---
-        bs_data = {{}}
+        bs_data = {}
         for i, y in enumerate(years):
             rev = revenues[i]
             ni = df_is.loc["당기순이익", y]
@@ -690,7 +690,7 @@ with tab_fs_gen:
         ])
         
         # --- 현금흐름표 (Cash Flow Statement) ---
-        cf_data = {{}}
+        cf_data = {}
         for i, y in enumerate(years):
             ni = df_is.loc["당기순이익", y]
             depreciation = int(df_bs.loc["비유동자산", y] * random.uniform(0.05, 0.1))
@@ -705,28 +705,28 @@ with tab_fs_gen:
         ])
 
         # 세션 상태에 저장하여 다운로드 클릭 시 리셋 방지
-        st.session_state.fs_data = {{
+        st.session_state.fs_data = {
             "company": company_name,
             "df_is": df_is,
             "df_bs": df_bs,
             "df_cf": df_cf
-        }}
+        }
 
     if "fs_data" in st.session_state:
         fs_data = st.session_state.fs_data
         comp_name = fs_data["company"]
-        st.success(f"✅ {{comp_name}}의 가상 재무제표 생성이 완료되었습니다.")
+        st.success(f"✅ {comp_name}의 가상 재무제표 생성이 완료되었습니다.")
         
         def format_currency(val):
-            return f"{{val:,.0f}}"
+            return f"{val:,.0f}"
 
-        st.markdown(f"#### 📄 {{comp_name}} - 요약 손익계산서 (단위: 백만원)")
+        st.markdown(f"#### 📄 {comp_name} - 요약 손익계산서 (단위: 백만원)")
         st.dataframe(fs_data["df_is"].style.format(format_currency), use_container_width=True)
         
-        st.markdown(f"#### 📄 {{comp_name}} - 요약 재무상태표 (단위: 백만원)")
+        st.markdown(f"#### 📄 {comp_name} - 요약 재무상태표 (단위: 백만원)")
         st.dataframe(fs_data["df_bs"].style.format(format_currency), use_container_width=True)
         
-        st.markdown(f"#### 📄 {{comp_name}} - 요약 현금흐름표 (단위: 백만원)")
+        st.markdown(f"#### 📄 {comp_name} - 요약 현금흐름표 (단위: 백만원)")
         st.dataframe(fs_data["df_cf"].style.format(format_currency), use_container_width=True)
         
         csv_is = fs_data["df_is"].to_csv(index=True).encode('utf-8-sig')
@@ -737,8 +737,8 @@ with tab_fs_gen:
         st.write("📥 **생성된 재무제표 다운로드 (CSV)**")
         col_dl1, col_dl2, col_dl3 = st.columns(3)
         with col_dl1:
-            st.download_button(label="손익계산서 다운로드", data=csv_is, file_name=f"{{comp_name}}_손익계산서.csv", mime="text/csv")
+            st.download_button(label="손익계산서 다운로드", data=csv_is, file_name=f"{comp_name}_손익계산서.csv", mime="text/csv")
         with col_dl2:
-            st.download_button(label="재무상태표 다운로드", data=csv_bs, file_name=f"{{comp_name}}_재무상태표.csv", mime="text/csv")
+            st.download_button(label="재무상태표 다운로드", data=csv_bs, file_name=f"{comp_name}_재무상태표.csv", mime="text/csv")
         with col_dl3:
-            st.download_button(label="현금흐름표 다운로드", data=csv_cf, file_name=f"{{comp_name}}_현금흐름표.csv", mime="text/csv")
+            st.download_button(label="현금흐름표 다운로드", data=csv_cf, file_name=f"{comp_name}_현금흐름표.csv", mime="text/csv")
