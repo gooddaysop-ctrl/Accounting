@@ -39,17 +39,9 @@ st.markdown(f"""
         background-color: #F8FAFC !important;
     }}
     
-    /* 헤더 배경 투명화 및 스트림릿 기본 메뉴(우측)만 숨김 */
-    [data-testid="stHeader"] {{
-        background-color: rgba(0,0,0,0) !important;
-    }}
-    [data-testid="stToolbar"] {{
-        display: none !important;
-    }}
-    /* 사이드바 여닫기 버튼을 제일 위로 강제 노출 */
-    [data-testid="collapsedControl"] {{
-        z-index: 99999999 !important;
-        pointer-events: auto !important;
+    /* 스트림릿 기본 우측 메뉴(Deploy 등)만 안전하게 숨김 */
+    .stAppDeployButton, [data-testid="stToolbar"] {{
+        visibility: hidden !important;
     }}
     
     /* 사이드바 글래스모피즘 (다크) 및 강제 최상단 유지 */
