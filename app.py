@@ -41,14 +41,10 @@ st.markdown(f"""
     
     /* 헤더 배경 투명화 및 스트림릿 기본 메뉴(우측)만 숨김 */
     [data-testid="stHeader"] {{
-        background-color: rgba(0,0,0,0);
-        pointer-events: none !important;
+        background-color: rgba(0,0,0,0) !important;
     }}
     [data-testid="stToolbar"] {{
         display: none !important;
-    }}
-    [data-testid="collapsedControl"] {{
-        pointer-events: auto !important;
     }}
     
     /* 사이드바 글래스모피즘 (다크) 및 강제 최상단 유지 */
