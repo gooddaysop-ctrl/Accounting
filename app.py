@@ -138,7 +138,7 @@ st.markdown(f"""
     [data-baseweb="tab-list"] {{
         gap: clamp(5px, 1.5vw, 20px);
         position: fixed;
-        top: 2.2rem;
+        top: 1.2rem;
         left: clamp(280px, 25vw, 35vw);
         right: auto;
         z-index: 9999999 !important; /* 클릭 보장을 위해 최상단으로 올림 (단, 사이드바보다는 낮음) */
@@ -184,9 +184,9 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 hero_html = f"""
 <!-- 흰색 고정 네비게이션 바 -->
-<div style="position: fixed; top: 0; left: 0; width: 100vw; height: 6.5rem; background-color: white; z-index: 99990; box-shadow: 0 2px 10px rgba(0,0,0,0.05); pointer-events: none;"></div>
+<div style="position: fixed; top: 0; left: 0; width: 100vw; height: 4.5rem; background-color: white; z-index: 99990; box-shadow: 0 2px 10px rgba(0,0,0,0.05); pointer-events: none;"></div>
 <!-- 좌측 상단 로고 (클릭 시 새로고침) -->
-<a href="." target="_self" style="position: fixed; top: 2.2rem; left: 5vw; z-index: 9999999; font-size: 1.5rem; font-weight: 900; color: #1E3A8A; letter-spacing: 1px; text-decoration: none; pointer-events: auto; cursor: pointer;">
+<a href="." target="_self" style="position: fixed; top: 1.2rem; left: 5vw; z-index: 9999999; font-size: 1.5rem; font-weight: 900; color: #1E3A8A; letter-spacing: 1px; text-decoration: none; pointer-events: auto; cursor: pointer;">
 JH ACCOUNTING
 </a>
 
