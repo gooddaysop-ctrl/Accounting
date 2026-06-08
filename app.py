@@ -44,6 +44,13 @@ st.markdown(f"""
         visibility: hidden !important;
     }}
     
+    /* 사이드바 여닫기 버튼(〉) 강제 최상단 노출 */
+    [data-testid="collapsedControl"] {{
+        z-index: 99999999 !important;
+        display: flex !important;
+        visibility: visible !important;
+    }}
+    
     /* 사이드바 글래스모피즘 (다크) 및 강제 최상단 유지 */
     [data-testid="stSidebar"], [data-testid="stSidebarOverlay"] {{
         background-color: rgba(15, 23, 42, 0.85) !important;
